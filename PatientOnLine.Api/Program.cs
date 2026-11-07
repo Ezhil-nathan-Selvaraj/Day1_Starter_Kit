@@ -1,9 +1,16 @@
+using Microsoft.EntityFrameworkCore;
+using PatientOnLine.Api.Data;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddOpenApi();
+
+// Day 4 - EF Core + SQL Server
+builder.Services.AddDbContext<PatientOnLineDbContext>(options =>
+    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 var app = builder.Build();
 
@@ -17,7 +24,7 @@ app.UseHttpsRedirection();
 app.UseAuthorization();
 app.MapControllers();
 
-// Keep WeatherForecast for now - we will delete it in Day 3
+// Keep WeatherForecast for reference
 var summaries = new[] { "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching" };
 app.MapGet("/weatherforecast", () =>
 {
